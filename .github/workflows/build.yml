@@ -18,11 +18,11 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Install PyTorch (CPU)
-        run: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
+      - name: Install PyTorch CUDA 11.8
+        run: pip install torch==2.1.0+cu118 torchvision==0.16.0+cu118 torchaudio==2.1.0+cu118 --index-url https://download.pytorch.org/whl/cu118
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt --ignore-requires-python
 
       - name: Install PyInstaller
         run: pip install pyinstaller
@@ -30,7 +30,7 @@ jobs:
       - name: Build EXE
         run: pyinstaller Nova-Vox.spec
 
-      - name: Upload EXE artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Nova-Vox-EXE
