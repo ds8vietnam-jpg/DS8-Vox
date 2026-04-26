@@ -18,9 +18,14 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Fix typing_extensions conflict in requirements.txt
+      - name: Fix requirements.txt conflicts
         run: |
-          (Get-Content requirements.txt) -replace 'typing_extensions==4.4.0', 'typing_extensions>=4.8.0' | Set-Content requirements.txt
+          (Get-Content requirements.txt) `
+            -replace 'typing_extensions==4.4.0', 'typing_extensions>=4.8.0' `
+            -replace 'torch==2.2.0', 'torch==2.1.0+cu118' `
+            -replace 'torchvision==0.17.0', 'torchvision==0.16.0+cu118' `
+            -replace 'torchaudio==2.2.0', 'torchaudio==2.1.0+cu118' |
+          Set-Content requirements.txt
 
       - name: Install PyTorch CUDA 11.8
         run: pip install torch==2.1.0+cu118 torchvision==0.16.0+cu118 torchaudio==2.1.0+cu118 --index-url https://download.pytorch.org/whl/cu118
